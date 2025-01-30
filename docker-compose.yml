@@ -1,0 +1,25 @@
+services:
+  postgres:
+    build:
+      context: ../roleplay-realm-archive-db
+    image: postgres:17
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./_local_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: ../roleplay-realm-archive
+      tags: 
+        - "registry.digitalocean.com/bam/dev"
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres/postgres?sslmode=disable
+    env_file: .env
+    depends_on:
+      - postgres
+    ports:
+      - 3000:3000
