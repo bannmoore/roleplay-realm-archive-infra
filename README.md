@@ -29,22 +29,39 @@ Build and publish Docker images:
 
 ```sh
 # build images
-docker compose build
+docker compose build web
 
 # check image creation
 docker image ls | grep bam 
 
 # log in and publish images
 doctl registry login
-docker push registry.digitalocean.com/bam/dev
+docker push registry.digitalocean.com/bam/roleplay-realm-archive
+
+# confirm
+doctl registry repository list-v2
 ```
 
 Apply Terraform :
 
 ```sh
+cd terraform
 terraform plan
 terraform apply
 ```
+
+## Gotchas
+
+### DigitalOcean expects the amd64 platform
+
+If the published image is built on the arm64 platform, it won't work on Digital Ocean. Check it like so:
+
+```sh
+docker image ls | grep bam 
+docker inspect <IMAGE_ID> --format '{{.Architecture}}'
+```
+
+This _should_ print out amd64. If not, the image needs to be rebuilt.
 
 ## Gratitude to these Resources
 

@@ -14,8 +14,8 @@ services:
   web:
     build:
       context: ../roleplay-realm-archive
-      tags: 
-        - "registry.digitalocean.com/bam/dev"
+      tags:
+        - "registry.digitalocean.com/bam/roleplay-realm-archive"
     environment:
       DATABASE_URL: postgres://postgres:password@postgres/postgres?sslmode=disable
     env_file: .env
