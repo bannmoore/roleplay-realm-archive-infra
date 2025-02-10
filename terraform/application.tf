@@ -21,7 +21,7 @@ resource "digitalocean_app" "rra_app" {
 
     service {
       name               = "web"
-      http_port          = 3000
+      http_port          = 80
       instance_count     = 1
       instance_size_slug = "basic-xxs"
 
