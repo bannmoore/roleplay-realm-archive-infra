@@ -35,18 +35,16 @@ This Terraform configuration expects two resources to already exist:
 #### Deploy DigitalOcean infrastructure
 
 ```sh
-cd terraform
-terraform plan -var-file="secret.tfvars"
-terraform apply -var-file="secret.tfvars"
+./bin/terraform.sh plan
+./bin/terraform.sh apply
 
 # ONLY DO THIS IF YOU WANT TO BLOW EVERYTHING UP
-terraform destroy -var-file="secret.tfvars"
+./bin/terraform.sh destroy
 ```
 
 #### (First Time) Set up Jump Server
 
-Note: These steps expect the following prerequisites:
--  `terraform apply` has been run in the `terraform` directory.
+**Heads up**: This assumes you're running these steps in the same environment as `terraform apply`.
 
 ```sh
 ./bin/connect_to_jump.sh
@@ -70,11 +68,9 @@ source ../.env
 To run new migrations:
 
 ```sh
-# SSH into jump server
 ./bin/connect_to_jump.sh
 
-# Run migrations
-cd /mnt/postgres_jump_data/roleplay-realm-archive-db
+cd /mnt/rra_jump_server_data/roleplay-realm-archive-db
 git pull
 source ../.env
 ./bin/migrate.sh
