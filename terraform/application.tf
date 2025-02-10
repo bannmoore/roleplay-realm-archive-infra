@@ -36,7 +36,42 @@ resource "digitalocean_app" "rra_app" {
 
       env {
         key   = "DATABASE_URL"
-        value = postgres.DATABASE_URL
+        value = "$${rra-postgres.DATABASE_URL}"
+      }
+
+      env {
+        key   = "DATABASE_DB"
+        value = digitalocean_database_cluster.rra_postgres.database
+      }
+
+      env {
+        key   = "DATABASE_HOST"
+        value = digitalocean_database_cluster.rra_postgres.host
+      }
+
+      env {
+        key   = "DATABASE_USER"
+        value = digitalocean_database_cluster.rra_postgres.user
+      }
+
+      env {
+        key   = "DATABASE_PASSWORD"
+        value = digitalocean_database_cluster.rra_postgres.password
+      }
+
+      env {
+        key   = "DATABASE_PORT"
+        value = digitalocean_database_cluster.rra_postgres.port
+      }
+
+      env {
+        key   = "DATABASE_USE_SSL"
+        value = "TRUE"
+      }
+
+      env {
+        key   = "DATABASE_CERT"
+        value = "$${rra-postgres.CA_CERT}"
       }
 
       env {
