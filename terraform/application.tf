@@ -36,7 +36,7 @@ resource "digitalocean_app" "rra_app" {
 
       env {
         key   = "DATABASE_URL"
-        value = "$${postgres.DATABASE_URL}"
+        value = postgres.DATABASE_URL
       }
 
       env {
