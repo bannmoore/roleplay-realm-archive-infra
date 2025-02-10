@@ -1,3 +1,20 @@
+variable "do_region" {
+  type    = string
+  default = "sfo3"
+}
+
+# app expects a slightly different slug
+variable "do_app_region" {
+  type    = string
+  default = "sfo"
+}
+
+variable "do_token" {
+  description = "Digital Ocean token"
+  type        = string
+  sensitive   = true
+}
+
 variable "discord_client_id" {
   description = "Discord Client ID"
   type        = string
