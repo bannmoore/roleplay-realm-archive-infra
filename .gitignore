@@ -3,6 +3,7 @@
 terraform.tfvars
 terraform.tfstate
 terraform.tfstate.backup
+secret.tfvars
 id_rsa
 .env
 jump.env

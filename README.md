@@ -33,10 +33,12 @@ Export the Digital Ocean Access Token:
 export DIGITALOCEAN_ACCESS_TOKEN=$TOKEN
 ```
 
+#### Deploy NextJS app by publishing new Docker image
+
 Build and publish Docker images:
 
 ```sh
-# build images
+# build image
 docker compose build web
 
 # check image creation
@@ -50,50 +52,55 @@ docker push registry.digitalocean.com/bam/roleplay-realm-archive
 doctl registry repository list-v2
 ```
 
-Apply Terraform :
+#### Deploy DigitalOcean infrastructure
 
 ```sh
 cd terraform
-terraform plan
-terraform apply
+terraform plan -var-file="secret.tfvars"
+terraform apply -var-file="secret.tfvars"
+
+# ONLY DO THIS IF YOU WANT TO BLOW EVERYTHING UP
+terraform destroy -var-file="secret.tfvars"
 ```
 
-Move setup files onto jumpbox:
+#### (First Time) Set up Jump Server
+
+Note: These steps expect the following prerequisites:
+-  `terraform apply` has been run in the `terraform` directory.
+-  The `ssh_admin` ssh key stored in your local machine at `~/.ssh/id_rsa_do`
 
 ```sh
 cd jump
-./move-files.sh
-```
 
-SSH into jumpbox:
+# Install setup files on jump server:
+./install.sh
 
-```sh
+# SSH into jump server
 doctl compute ssh postgres-jump-box --ssh-key-path ~/.ssh/id_rsa_do
-```
 
-(First time only) Set up jump box:
-
-[Docs](https://docs.digitalocean.com/products/volumes/how-to/mount/)
-
-```sh
+# On server, run setup script
 ./setup.sh
 
 cat ~/.ssh/id_rsa.pub
 # (copy the public key and add it to GH)
 
+# Clone database repo
 cd /mnt/postgres_jump_data
 git clone git@github.com:bannmoore/roleplay-realm-archive-db.git
-cd roleplay-realm-archive
+cd roleplay-realm-archive-db
 
+# Run migrations
 source ../.env
 ./bin/migrate.sh
 ```
 
 To run new migrations:
 
-```
+```sh
+# SSH into jump server
 doctl compute ssh postgres-jump-box --ssh-key-path ~/.ssh/id_rsa_do
 
+# Run migrations
 cd /mnt/postgres_jump_data/roleplay-realm-archive-db
 git pull
 source ../.env
@@ -121,4 +128,5 @@ If your digitalocean_vpc resource is the first one for a region, it will automat
 
 - https://tonitalksdev.com/deploying-clojure-like-a-seasoned-hobbyist
 - https://slugs.do-api.dev/
-- https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/#:~:text=Even%20though%20they're%20related,your%20images%20based%20on%20projects.
+- https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/#:~:text=Even%20though%20they're%20related,your%20images%20based%20on%20projects
+- https://docs.digitalocean.com/products/volumes/how-to/mount/

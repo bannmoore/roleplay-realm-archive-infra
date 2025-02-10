@@ -7,7 +7,8 @@ resource "digitalocean_project" "project" {
     digitalocean_app.web.urn,
     digitalocean_database_cluster.postgres.urn,
     digitalocean_droplet.postgres_jump_box.urn,
-    digitalocean_volume.postgres_jump_data.urn
+    digitalocean_volume.postgres_jump_data.urn,
+    digitalocean_domain.roleplay_realm_archive.urn
   ]
 }
 
@@ -74,6 +75,10 @@ output "postgres_jump_box_addr" {
   value = digitalocean_droplet.postgres_jump_box.ipv4_address
 }
 
+resource "digitalocean_domain" "roleplay_realm_archive" {
+  name = "roleplay-realm-archive.com"
+}
+
 resource "digitalocean_app" "web" {
   spec {
     name   = "roleplay-realm-archive"
@@ -81,6 +86,12 @@ resource "digitalocean_app" "web" {
 
     alert {
       rule = "DEPLOYMENT_FAILED"
+    }
+
+    domain {
+      name = digitalocean_domain.roleplay_realm_archive.name
+      type = "PRIMARY"
+      zone = digitalocean_domain.roleplay_realm_archive.name
     }
 
     service {
@@ -101,6 +112,36 @@ resource "digitalocean_app" "web" {
       env {
         key   = "DATABASE_URL"
         value = "$${postgres.DATABASE_URL}"
+      }
+
+      env {
+        key   = "BASE_URL"
+        value = "https://${digitalocean_domain.roleplay_realm_archive.name}"
+      }
+
+      env {
+        key   = "DISCORD_API_URL"
+        value = "https://discord.com/api"
+      }
+
+      env {
+        key   = "DISCORD_CLIENT_ID"
+        value = var.discord_client_id
+      }
+
+      env {
+        key   = "DISCORD_CLIENT_SECRET"
+        value = var.discord_client_secret
+      }
+
+      env {
+        key   = "DISCORD_STATE"
+        value = var.discord_state
+      }
+
+      env {
+        key   = "DISCORD_BOT_TOKEN"
+        value = var.discord_bot_token
       }
     }
 
