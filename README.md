@@ -22,34 +22,14 @@ docker compose up -d
 ### Prerequisites
 
 This Terraform configuration expects two resources to already exist:
-- An ssh key called "ssh_admin"
 - A container app registry called "bam"
 
 ### Deployment
 
-Export the Digital Ocean Access Token:
-
-```sh
-export DIGITALOCEAN_ACCESS_TOKEN=$TOKEN
-```
-
 #### Deploy NextJS app by publishing new Docker image
 
-Build and publish Docker images:
-
 ```sh
-# build image
-docker compose build web
-
-# check image creation
-docker image ls | grep bam 
-
-# log in and publish images
-doctl registry login
-docker push registry.digitalocean.com/bam/roleplay-realm-archive
-
-# confirm
-doctl registry repository list-v2
+./bin/deploy_docker.sh
 ```
 
 #### Deploy DigitalOcean infrastructure
@@ -67,30 +47,23 @@ terraform destroy -var-file="secret.tfvars"
 
 Note: These steps expect the following prerequisites:
 -  `terraform apply` has been run in the `terraform` directory.
--  The `ssh_admin` ssh key stored in your local machine at `~/.ssh/id_rsa_do`
 
 ```sh
-cd jump
+./bin/connect_to_jump.sh
 
-# Install setup files on jump server:
-./install.sh
-
-# SSH into jump server
-doctl compute ssh postgres-jump-box --ssh-key-path ~/.ssh/id_rsa_do
-
-# On server, run setup script
-./setup.sh
-
+# On server, generate ssh key.
+ssh-keygen -t rsa
 cat ~/.ssh/id_rsa.pub
-# (copy the public key and add it to GH)
+# (copy the public key and add it to GitHub)
 
 # Clone database repo
-cd /mnt/postgres_jump_data
+cd /mnt/rra_jump_server_data
 git clone git@github.com:bannmoore/roleplay-realm-archive-db.git
 cd roleplay-realm-archive-db
 
 # Run migrations
 source ../.env
+./bin/jump_setup.sh
 ./bin/migrate.sh
 ```
 
@@ -98,7 +71,7 @@ To run new migrations:
 
 ```sh
 # SSH into jump server
-doctl compute ssh postgres-jump-box --ssh-key-path ~/.ssh/id_rsa_do
+./bin/connect_to_jump.sh
 
 # Run migrations
 cd /mnt/postgres_jump_data/roleplay-realm-archive-db

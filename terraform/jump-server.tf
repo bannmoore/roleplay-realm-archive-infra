@@ -1,24 +1,27 @@
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/ssh_key
-data "digitalocean_ssh_key" "rra_admin" {
-  name = "ssh_admin"
-}
-
-# https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume
-resource "digitalocean_volume" "rra_jump_server_data" {
-  name        = "rra-jump-server-volume"
-  region      = var.do_region
-  size        = 10
-  description = "Jump server for database management"
+resource "digitalocean_ssh_key" "rra_admin" {
+  name       = "rra_admin"
+  public_key = file(var.jump_ssh_public_key_path)
 }
 
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet
 resource "digitalocean_droplet" "rra_jump_server" {
-  image    = "ubuntu-24-10-x64"
   name     = "rra-jump-server"
+  image    = "ubuntu-24-10-x64"
   region   = var.do_region
   size     = "s-1vcpu-512mb-10gb"
-  ssh_keys = [data.digitalocean_ssh_key.rra_admin.fingerprint]
+  ssh_keys = [digitalocean_ssh_key.rra_admin.fingerprint]
   vpc_uuid = digitalocean_vpc.rra_vpc.id
+}
+
+# https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume
+# This volume will be available on the jump_server at /mnt/rra_jump_server_data/ 
+resource "digitalocean_volume" "rra_jump_server_data" {
+  name                    = var.jump_server_name
+  region                  = var.do_region
+  size                    = 10
+  initial_filesystem_type = "ext4"
+  description             = "Jump server for database management"
 }
 
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume_attachment

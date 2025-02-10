@@ -6,5 +6,6 @@ terraform.tfstate.backup
 secret.tfvars
 id_rsa
 .env
-jump.env
+.env.local
+.env.jump
 _local_data
