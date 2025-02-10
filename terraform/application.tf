@@ -35,46 +35,6 @@ resource "digitalocean_app" "rra_app" {
       }
 
       env {
-        key   = "DATABASE_URL"
-        value = "$${rra-postgres.DATABASE_URL}"
-      }
-
-      env {
-        key   = "DATABASE_DB"
-        value = digitalocean_database_cluster.rra_postgres.database
-      }
-
-      env {
-        key   = "DATABASE_HOST"
-        value = digitalocean_database_cluster.rra_postgres.host
-      }
-
-      env {
-        key   = "DATABASE_USER"
-        value = digitalocean_database_cluster.rra_postgres.user
-      }
-
-      env {
-        key   = "DATABASE_PASSWORD"
-        value = digitalocean_database_cluster.rra_postgres.password
-      }
-
-      env {
-        key   = "DATABASE_PORT"
-        value = digitalocean_database_cluster.rra_postgres.port
-      }
-
-      env {
-        key   = "DATABASE_USE_SSL"
-        value = "TRUE"
-      }
-
-      env {
-        key   = "DATABASE_CERT"
-        value = "$${rra-postgres.CA_CERT}"
-      }
-
-      env {
         key   = "BASE_URL"
         value = "https://${digitalocean_domain.roleplay_realm_archive.name}"
       }
@@ -85,23 +45,39 @@ resource "digitalocean_app" "rra_app" {
       }
 
       env {
+        key   = "DATABASE_URL"
+        value = digitalocean_database_cluster.rra_postgres.uri
+        type  = "SECRET"
+      }
+
+      env {
+        key   = "DATABASE_CERT"
+        value = "$${rra-postgres.CA_CERT}"
+        type  = "SECRET"
+      }
+
+      env {
         key   = "DISCORD_CLIENT_ID"
         value = var.discord_client_id
+        type  = "SECRET"
       }
 
       env {
         key   = "DISCORD_CLIENT_SECRET"
         value = var.discord_client_secret
+        type  = "SECRET"
       }
 
       env {
         key   = "DISCORD_STATE"
         value = var.discord_state
+        type  = "SECRET"
       }
 
       env {
         key   = "DISCORD_BOT_TOKEN"
         value = var.discord_bot_token
+        type  = "SECRET"
       }
     }
 

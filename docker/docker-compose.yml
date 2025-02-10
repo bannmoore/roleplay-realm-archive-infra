@@ -19,12 +19,6 @@ services:
     environment:
       BASE_URL: http://localhost:3000
       DATABASE_URL: postgres://postgres:password@postgres/postgres?sslmode=disable
-      DATABASE_DB: postgres
-      DATABASE_HOST: postgres
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: password
-      DATABASE_PORT: 5432
-      DATABASE_USE_SSL: FALSE
       DISCORD_API_URL: https://discord.com/api
     env_file: .env.local
     depends_on:
