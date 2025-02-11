@@ -10,7 +10,7 @@ resource "digitalocean_database_cluster" "rra_postgres" {
 }
 
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/database_firewall
-resource "digitalocean_database_firewall" "rra_postgres" {
+resource "digitalocean_database_firewall" "rra_postgres_firewall" {
   cluster_id = digitalocean_database_cluster.rra_postgres.id
 
   rule {

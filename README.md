@@ -1,4 +1,4 @@
-# Roleplay Realm Archive Terraform
+# Roleplay Realm Archive Infrastructure
 
 ## Dependencies
 
@@ -6,7 +6,7 @@
 - [Terraform](https://developer.hashicorp.com/terraform?product_intent=terraform) (`brew install terraform`)
 - [Doctl](https://github.com/digitalocean/doctl) (`brew install doctl`)
 
-This project also expects the following repos to be cloned into the same workspace:
+This project expects the following repos to be cloned into the same workspace:
 
 - `roleplay-realm-archive`
 - `roleplay-realm-archive-db`
@@ -21,7 +21,7 @@ docker compose up -d
 
 ### Prerequisites
 
-This Terraform configuration expects two resources to already exist:
+This Terraform configuration expects the following resources to already exist:
 - A container app registry called "bam"
 
 ### Deployment
@@ -55,7 +55,7 @@ cat ~/.ssh/id_rsa.pub
 # (copy the public key and add it to GitHub)
 
 # Clone database repo
-cd /mnt/rra_jump_server_data
+cd /mnt/rra_jump_server_volume
 git clone git@github.com:bannmoore/roleplay-realm-archive-db.git
 cd roleplay-realm-archive-db
 
@@ -70,7 +70,7 @@ To run new migrations:
 ```sh
 ./bin/connect_to_jump.sh
 
-cd /mnt/rra_jump_server_data/roleplay-realm-archive-db
+cd /mnt/rra_jump_server_volume/roleplay-realm-archive-db
 git pull
 source ../.env
 ./bin/migrate.sh

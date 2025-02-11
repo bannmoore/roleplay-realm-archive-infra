@@ -8,7 +8,7 @@ resource "digitalocean_project" "rra_project" {
     digitalocean_app.rra_app.urn,
     digitalocean_database_cluster.rra_postgres.urn,
     digitalocean_droplet.rra_jump_server.urn,
-    digitalocean_volume.rra_jump_server_data.urn,
-    digitalocean_domain.roleplay_realm_archive.urn
+    digitalocean_volume.rra_jump_server_volume.urn,
+    digitalocean_domain.roleplay_realm_archive_com.urn
   ]
 }

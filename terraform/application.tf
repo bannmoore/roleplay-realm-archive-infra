@@ -1,5 +1,5 @@
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/domain
-resource "digitalocean_domain" "roleplay_realm_archive" {
+resource "digitalocean_domain" "roleplay_realm_archive_com" {
   name = "roleplay-realm-archive.com"
 }
 
@@ -14,13 +14,13 @@ resource "digitalocean_app" "rra_app" {
     }
 
     domain {
-      name = digitalocean_domain.roleplay_realm_archive.name
+      name = digitalocean_domain.roleplay_realm_archive_com.name
       type = "PRIMARY"
-      zone = digitalocean_domain.roleplay_realm_archive.name
+      zone = digitalocean_domain.roleplay_realm_archive_com.name
     }
 
     service {
-      name               = "web"
+      name               = "app"
       http_port          = 80
       instance_count     = 1
       instance_size_slug = "basic-xxs"
@@ -36,7 +36,7 @@ resource "digitalocean_app" "rra_app" {
 
       env {
         key   = "BASE_URL"
-        value = "https://${digitalocean_domain.roleplay_realm_archive.name}"
+        value = "https://${digitalocean_domain.roleplay_realm_archive_com.name}"
       }
 
       env {
@@ -52,7 +52,7 @@ resource "digitalocean_app" "rra_app" {
 
       env {
         key   = "DATABASE_CERT"
-        value = "$${rra-postgres.CA_CERT}"
+        value = "$${rra-database.CA_CERT}"
         type  = "SECRET"
       }
 
@@ -82,7 +82,7 @@ resource "digitalocean_app" "rra_app" {
     }
 
     database {
-      name         = "rra-postgres"
+      name         = "rra-database"
       cluster_name = digitalocean_database_cluster.rra_postgres.name
       db_name      = "defaultdb"
       db_user      = "doadmin"

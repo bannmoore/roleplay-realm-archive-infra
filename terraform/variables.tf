@@ -15,21 +15,15 @@ variable "do_token" {
   sensitive   = true
 }
 
-variable "jump_ssh_public_key_path" {
+variable "jump_server_ssh_key_path" {
   description = "Path to the public SSH key used to access the Jump Server"
-  type        = string
-  default     = "~/.ssh/id_rsa_do.pub"
-}
-
-variable "jump_ssh_private_key_path" {
-  description = "Path to the private SSH key used to access the Jump Server"
   type        = string
   default     = "~/.ssh/id_rsa_do"
 }
 
-variable "jump_server_name" {
+variable "jump_server_volume_name" {
   type    = string
-  default = "rra-jump-server-data"
+  default = "rra-jump-server-volume"
 }
 
 variable "discord_client_id" {

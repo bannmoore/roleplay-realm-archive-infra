@@ -11,7 +11,7 @@ services:
     volumes:
       - ./_local_data:/var/lib/postgresql/data
 
-  web:
+  app:
     build:
       context: ../../roleplay-realm-archive
       tags:
