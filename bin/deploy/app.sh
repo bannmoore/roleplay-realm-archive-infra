@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 (
-  cd docker
+  cd "$(dirname "${BASH_SOURCE[0]}")/../../docker"
 
   doctl auth init
   doctl registry login --expiry-seconds 86400

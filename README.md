@@ -14,7 +14,12 @@ This project expects the following repos to be cloned into the same workspace:
 ## Quick Start
 
 ```sh
-docker compose up -d
+# roleplay-realm-archive-infra
+./bin/local/db_up.sh
+./bin/local/app_up.sh
+
+# roleplay-realm-archive-db
+./bin/migrate
 ```
 
 ## Deploy
@@ -29,14 +34,15 @@ This Terraform configuration expects the following resources to already exist:
 #### Deploy NextJS app by publishing new Docker image
 
 ```sh
-./bin/deploy_docker.sh
+./bin/deploy/app.sh
 ```
 
 #### Deploy DigitalOcean infrastructure
 
 ```sh
 ./bin/terraform.sh plan
-./bin/terraform.sh apply
+
+./bin/deploy/infra.sh
 
 # ONLY DO THIS IF YOU WANT TO BLOW EVERYTHING UP
 ./bin/terraform.sh destroy
@@ -44,12 +50,12 @@ This Terraform configuration expects the following resources to already exist:
 
 #### (First Time) Set up Jump Server
 
-**Heads up**: This assumes you're running these steps in the same environment as `terraform apply`.
+**Heads up**: This assumes you're running these steps in the applied terraform workspace, with outputs available.
 
 ```sh
-./bin/connect_to_jump.sh
+./bin/jump/connect.sh
 
-# On server, generate ssh key.
+# On jump server, generate ssh key.
 ssh-keygen -t rsa
 cat ~/.ssh/id_rsa.pub
 # (copy the public key and add it to GitHub)
@@ -68,7 +74,7 @@ source ../.env
 To run new migrations:
 
 ```sh
-./bin/connect_to_jump.sh
+./bin/jump/connect.sh
 
 cd /mnt/rra_jump_server_volume/roleplay-realm-archive-db
 git pull

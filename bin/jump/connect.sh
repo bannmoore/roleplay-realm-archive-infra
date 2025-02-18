@@ -2,7 +2,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-source "$(dirname "${BASH_SOURCE[0]}")/_shared.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/../_shared.sh"
 
 export DIGITALOCEAN_ACCESS_TOKEN=$(get_tf_output do_token)
 
