@@ -1,7 +1,7 @@
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/ssh_key
 resource "digitalocean_ssh_key" "rra_jump_server_ssh_key" {
   name       = "rra-jump-server-ssh-key"
-  public_key = file("${var.jump_server_ssh_key_path}.pub")
+  public_key = var.jump_server_ssh_key
 }
 
 # https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet

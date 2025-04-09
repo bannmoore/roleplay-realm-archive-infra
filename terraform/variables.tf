@@ -27,10 +27,16 @@ variable "do_spaces_secret_key" {
   sensitive   = true
 }
 
+variable "jump_server_ssh_key" {
+  description = "The public SSH key used to access the Jump Server"
+  type        = string
+  sensitive   = true
+}
+
 variable "jump_server_ssh_key_path" {
   description = "Path to the public SSH key used to access the Jump Server"
   type        = string
-  default     = "~/.ssh/id_rsa_do"
+  default     = "~/.ssh/id_rsa_do_rra"
 }
 
 variable "jump_server_volume_name" {
