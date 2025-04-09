@@ -15,6 +15,18 @@ variable "do_token" {
   sensitive   = true
 }
 
+variable "do_spaces_access_id" {
+  description = "Digital Ocean Spaces key access id"
+  type        = string
+  sensitive   = true
+}
+
+variable "do_spaces_secret_key" {
+  description = "Digital Ocean Spaces key secret key"
+  type        = string
+  sensitive   = true
+}
+
 variable "jump_server_ssh_key_path" {
   description = "Path to the public SSH key used to access the Jump Server"
   type        = string
