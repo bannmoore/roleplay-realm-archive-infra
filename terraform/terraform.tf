@@ -5,6 +5,15 @@ terraform {
       version = "~> 2.0"
     }
   }
+
+  cloud {
+
+    organization = "bannmoore"
+
+    workspaces {
+      name = "roleplay-realm-archive-infra"
+    }
+  }
 }
 
 provider "digitalocean" {
