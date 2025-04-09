@@ -79,6 +79,24 @@ resource "digitalocean_app" "rra_app" {
         value = var.discord_bot_token
         type  = "SECRET"
       }
+
+      env {
+        key   = "DO_SPACES_SECRET_KEY"
+        value = digitalocean_spaces_key.rra_app.secret_key
+        type  = "SECRET"
+      }
+
+      env {
+        key   = "DO_SPACES_BUCKET_NAME"
+        value = digitalocean_spaces_bucket.rra.name
+        type  = "SECRET"
+      }
+
+      env {
+        key   = "DO_SPACES_ENDPOINT"
+        value = digitalocean_spaces_bucket.rra.endpoint
+        type  = "SECRET"
+      }
     }
 
     database {

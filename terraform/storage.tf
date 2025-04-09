@@ -26,3 +26,11 @@ resource "digitalocean_spaces_bucket_cors_configuration" "rra" {
     max_age_seconds = 3000
   }
 }
+
+resource "digitalocean_spaces_key" "rra_app" {
+  name = "rra-app"
+  grant {
+    bucket     = digitalocean_spaces_bucket.rra.name
+    permission = "readwrite"
+  }
+}
