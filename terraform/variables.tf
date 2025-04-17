@@ -1,3 +1,9 @@
+variable "auth_secret" {
+  description = "The secret key for the auth service"
+  type        = string
+  sensitive   = true
+}
+
 variable "do_region" {
   type    = string
   default = "sfo3"

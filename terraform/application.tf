@@ -39,6 +39,19 @@ resource "digitalocean_app" "rra_app" {
         value = "https://${digitalocean_domain.roleplay_realm_archive_com.name}"
       }
 
+      // Ref: https://authjs.dev/getting-started/deployment#auth_url
+      env {
+        key   = "AUTH_URL"
+        value = "https://${digitalocean_domain.roleplay_realm_archive_com.name}"
+      }
+
+      // Ref: https://authjs.dev/getting-started/deployment#auth_secret
+      env {
+        key   = "AUTH_SECRET"
+        value = var.auth_secret
+        type  = "SECRET"
+      }
+
       env {
         key   = "DISCORD_API_URL"
         value = "https://discord.com/api"
