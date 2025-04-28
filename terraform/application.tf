@@ -100,6 +100,12 @@ resource "digitalocean_app" "rra_app" {
       }
 
       env {
+        key   = "DO_SPACES_ACCESS_ID"
+        value = digitalocean_spaces_key.rra_app.access_key
+        type  = "SECRET"
+      }
+
+      env {
         key   = "DO_SPACES_BUCKET_NAME"
         value = digitalocean_spaces_bucket.rra.name
         type  = "SECRET"
