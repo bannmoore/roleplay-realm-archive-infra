@@ -34,6 +34,12 @@ resource "digitalocean_app" "rra_app" {
         }
       }
 
+
+      env {
+        key   = "NODE_ENV"
+        value = "production"
+      }
+
       env {
         key   = "BASE_URL"
         value = "https://${digitalocean_domain.roleplay_realm_archive_com.name}"
