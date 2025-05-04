@@ -27,6 +27,7 @@ This project expects the following repos to be cloned into the same workspace:
 ### Prerequisites
 
 This Terraform configuration expects the following resources to already exist:
+- A personal access token (generate [here](https://cloud.digitalocean.com/account/api/tokens?i=50c38c))
 - A container app registry called "bam"
 
 ### Deployment
