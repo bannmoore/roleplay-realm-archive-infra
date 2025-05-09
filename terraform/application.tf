@@ -60,7 +60,7 @@ resource "digitalocean_app" "rra_app" {
 
       env {
         key   = "DISCORD_API_URL"
-        value = "https://discord.com/api"
+        value = "https://discord.com/api/v10"
       }
 
       env {
