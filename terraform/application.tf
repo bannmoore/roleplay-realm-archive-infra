@@ -100,6 +100,12 @@ resource "digitalocean_app" "rra_app" {
       }
 
       env {
+        key   = "DISCORD_CORE_SERVER_ID"
+        value = var.discord_core_server_id
+        type  = "SECRET"
+      }
+
+      env {
         key   = "DO_SPACES_SECRET_KEY"
         value = digitalocean_spaces_key.rra_app.secret_key
         type  = "SECRET"

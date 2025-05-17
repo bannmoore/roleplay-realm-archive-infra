@@ -73,3 +73,9 @@ variable "discord_bot_token" {
   type        = string
   sensitive   = true
 }
+
+variable "discord_core_server_id" {
+  description = "Membership in the server with this id is required to authenticate"
+  type        = string
+  sensitive   = true
+}
